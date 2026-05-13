@@ -142,13 +142,13 @@ class TestFilterLogic(unittest.TestCase):
         self.assertTrue(result.passed)
         self.assertIsNotNone(result.filtered_columns)
 
-    def test_source_scope_filter_except_software(self):
+    def test_source_scope_filter_scope_a(self):
         """测试字段范围筛选排除范围A"""
         result = self.filter_logic.apply_source_scope_filter("scope_a")
         self.assertTrue(result.passed)
         self.assertNotIn("software_full_name", result.filtered_columns)
 
-    def test_source_scope_filter_except_patent(self):
+    def test_source_scope_filter_scope_b(self):
         """测试字段范围筛选排除范围B"""
         result = self.filter_logic.apply_source_scope_filter("scope_b")
         self.assertTrue(result.passed)
@@ -569,7 +569,7 @@ class TestCoreMatchingPipeline(unittest.TestCase):
         self.assertNotIn('patent_abs', filter_result.filtered_columns)
 
     def test_record_id_field_name_in_result(self):
-        """验证匹配结果字典中使用 record_id 而非旧的 lc_company_id"""
+        """验证匹配结果字典中使用新字段名 record_id"""
         filter_result = self.filter_logic.apply_combined_filter(self.kw_match, self.input_match)
         match_result = self.matching_engine.match_keywords(
             self.kw_match, self.input_match, self.text_columns

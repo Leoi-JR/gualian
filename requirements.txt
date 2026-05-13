@@ -1,4 +1,4 @@
-# 挂链工具集依赖包
+# RuleKit 依赖包
 # Link Tool Suite Dependencies
 
 # 核心依赖
