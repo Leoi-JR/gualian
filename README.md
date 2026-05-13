@@ -44,7 +44,7 @@ v2.0/
 │   ├── text_preprocessor.py            # 文本预处理工具
 │   ├── batch_matcher.py                # 批处理匹配器
 │   └── parquet_manager.py              # Parquet文件管理器
-├── tests/                        # 单元测试（96个测试用例）
+├── tests/                        # 单元测试（88个测试用例）
 │   ├── __init__.py
 │   ├── test_keyword_matching.py
 │   ├── test_text_preprocessor.py
@@ -158,7 +158,7 @@ python tests/test_runner.py --verbose
 ## 🧪 测试框架
 
 ### 单元测试
-项目包含96个单元测试用例，覆盖所有核心功能模块：
+项目包含88个单元测试用例，覆盖所有核心功能模块：
 
 ```bash
 # 运行所有测试
@@ -177,6 +177,7 @@ python tests/test_runner.py --coverage
 - 匹配引擎测试（MatchingEngine）
 - 结果处理器测试（ResultProcessor）
 - 关键词匹配器测试（KeywordMatcher）
+- **核心链路集成测试**（TestCoreMatchingPipeline）：type_filter 筛选、field_scope 列排除、unlike 拦截、多规则匹配等端到端场景
 - 文本预处理器测试（TextPreprocessor）
 - 批处理匹配器测试（BatchMatcher）
 - Parquet管理器测试（ParquetManager）
