@@ -1,0 +1,173 @@
+{
+  "_comments": {
+    "description": "RuleKit 配置文件 - RuleKit Configuration",
+    "version": "2.0",
+    "last_updated": "2024-12-05",
+    "note": "请根据实际情况修改以下配置项"
+  },
+  "excel": {
+    "_comments": "原始关键词规则表配置 - 用于验证的源文件",
+    "file_path": "sample_data/keyword_rules.xlsx",
+    "sheet_name": "原版"
+  },
+  "keyword_columns": [
+    "like_keyword",
+    "must_keyword",
+    "unlike_keyword"
+  ],
+  "column_mappings": {
+    "like_keyword_column": "like_keyword",
+    "must_keyword_column": "must_keyword",
+    "unlike_keyword_column": "unlike_keyword"
+  },
+  "validation_rules": {
+    "_comments": "关键词规则验证配置",
+    "max_errors_display": 10,
+    "highlight_color": "FFFF00"
+  },
+  "pattern_conversion": {
+    "_comments": "关键词模式转换配置 - 将验证通过的规则转换为正则表达式格式",
+    "max_chars": 30,
+    "source_file_path": "auto_detect",
+    "output_file_path": "converted_keyword_rules.xlsx",
+    "output_sheet_name": "转换后规则",
+    "column_prefix": "converted",
+    "enable_logging": true
+  },
+  "keyword_matching": {
+    "_comments": "关键词智能匹配配置 - choice=3功能配置",
+    "keyword_file_path": "auto_detect",
+    "keyword_sheet_name": "转换后规则",
+    "input_file_path": "",
+    "input_sheet_name": "Sheet1",
+    "output_file_path": "matching_results.csv",
+    "enable_performance_optimization": true,
+    "max_workers": 4,
+    "enable_logging": true,
+    "parquet_data_source": {
+      "_comments": "Parquet数据源配置 - 支持从两个文件夹读取同名parquet文件并合并",
+      "folder_path_1": "/path/to/your/data/part01",
+      "folder_path_2": "/path/to/your/data/part02",
+      "file_extension": ".parquet",
+      "merge_on_columns": [
+        "record_id",
+        "record_name"
+      ],
+      "batch_processing": {
+        "enable_full_batch": true,
+        "enable_random_test": true,
+        "progress_report_interval": 10,
+        "error_handling": {
+          "continue_on_error": true,
+          "max_errors": 50,
+          "log_errors": true
+        },
+        "processed_files": {
+          "_comments": "已处理文件列表配置 - 文件列表保存在单独的processed_files.json中",
+          "enable_skip_processed": true
+        }
+      }
+    },
+    "keyword_table_columns": {
+      "_comments": "关键词表格列定义",
+      "label_columns": [
+        "label_name",
+        "label_level_1_name",
+        "label_level_2_name",
+        "label_level_3_name",
+        "label_level_4_name",
+        "label_level_5_name"
+      ],
+      "filter_columns": [
+        "type_filter",
+        "field_scope"
+      ],
+      "original_keyword_columns": [
+        "like_keyword",
+        "must_keyword",
+        "unlike_keyword"
+      ],
+      "converted_keyword_columns": [
+        "converted_like_keyword",
+        "converted_must_keyword",
+        "converted_unlike_keyword"
+      ]
+    },
+    "input_table_columns": {
+      "_comments": "输入数据表格列定义",
+      "identifier_columns": [
+        "record_id",
+        "record_name"
+      ],
+      "filter_columns": [
+        "category_code"
+      ],
+      "text_content_columns": [
+        "company_profile",
+        "stock_introduction",
+        "stock_main_product",
+        "text_field_1",
+        "text_field_3",
+        "business_scope",
+        "stock_business_scope",
+        "bid_title",
+        "text_field_4",
+        "app_brief",
+        "text_field_5",
+        "patent_title",
+        "patent_abs",
+        "software_full_name",
+        "text_field_2",
+        "product_intro"
+      ]
+    },
+    "matching_rules": {
+      "_comments": "匹配规则配置",
+      "industry_filter": {
+        "enable": true,
+        "default_value": "default",
+        "separator": "、"
+      },
+      "source_scope_filter": {
+        "enable": true,
+        "default_value": "default",
+        "except_mappings": {
+          "scope_a": [
+            "software_full_name"
+          ],
+          "scope_b": [
+            "patent_title",
+            "patent_abs"
+          ]
+        },
+        "separator": "、"
+      },
+      "keyword_matching": {
+        "like_keyword_default": "0",
+        "must_keyword_default": "0",
+        "unlike_keyword_default": "0",
+        "match_tag_format": "_{type}_{original_keyword}"
+      }
+    },
+    "result_fields": {
+      "_comments": "匹配结果字段配置 - 定义结果数据中的标识字段名称",
+      "keyword_identifier": {
+        "field_name": "keyword_index",
+        "description": "关键词规则的唯一标识索引，用于追溯匹配到的具体关键词规则"
+      },
+      "company_identifier": {
+        "field_name": "company_id",
+        "description": "记录的唯一标识ID，用于标识匹配成功的数据记录"
+      }
+    }
+  },
+  "highlight_results": {
+    "_comments": "匹配结果高亮导出配置 - choice=4功能配置",
+    "output_base_path": "highlighted_results",
+    "batch_size": 10,
+    "description": {
+      "output_base_path": "高亮结果文件的专用存储目录，避免与原始匹配结果混淆",
+      "batch_size": "每批次处理的Excel文件数量，影响内存使用和处理速度"
+    }
+  }
+}
